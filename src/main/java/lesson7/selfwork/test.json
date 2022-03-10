@@ -1,0 +1,27 @@
+{
+  "now": 1646906592,
+  "now_dt": "2022-03-10T10:03:12.358421Z",
+  "info": {
+    "n": true,
+    "geoid": 10393,
+    "url": "https://yandex.ru/pogoda/10393?lat=51.507351&lon=-0.127696",
+    "lat": 51.507351,
+    "lon": -0.127696,
+    "tzinfo": {
+      "name": "Europe/London",
+      "abbr": "GMT",
+      "dst": false,
+      "offset": 0
+    },
+    "def_pressure_mm": 758,
+    "def_pressure_pa": 1010,
+    "slug": "10393",
+    "zoom": 10,
+    "nr": true,
+    "ns": true,
+    "nsr": true,
+    "p": false,
+    "f": true,
+    "_h": false
+  }
+}

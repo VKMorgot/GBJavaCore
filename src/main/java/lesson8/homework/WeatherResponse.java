@@ -37,7 +37,7 @@ public class WeatherResponse {
      * Вывод в консоль информации о текущей погоде
      */
     private void printWeatherFact() {
-        String cityName = weather.getGetObject().getLocalityObject().getName();
+        String cityName = weather.getGeoObject().getLocalityObject().getName();
         String weatherText = conditions.getProperties().getProperty(weather.getFactObject().getCondition());
         float temperature = weather.getFactObject().getTemp();
         float feelsLike = weather.getFactObject().getFeelsLike();
@@ -51,7 +51,7 @@ public class WeatherResponse {
      * Вывод в консоль информацию о погоде на 5 дней
      */
     private void printWeatherFiveDays() {
-        String cityName = weather.getGetObject().getLocalityObject().getName();
+        String cityName = weather.getGeoObject().getLocalityObject().getName();
         System.out.printf("Прогноз погоды в городе %s на %s дней\n", cityName, Period.FIVE_DAYS.getDays());
         for (Forecast forecast : weather.getForecasts()) {
             String date = forecast.getDate();
@@ -70,6 +70,14 @@ public class WeatherResponse {
     public void saveWeather() throws IOException {
         DatabaseRepository databaseRepository = new SQLiteImplementation();
         databaseRepository.saveWeatherData(weather);
+
+        //todo удалить
+        try {
+            databaseRepository.getAllSavedData();
+            System.out.println("Печать прошла");
+        } catch (MyObjectSaveException exception) {
+            exception.printStackTrace();
+        }
     }
 
 }

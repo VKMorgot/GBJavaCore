@@ -22,4 +22,16 @@ class DayShort {
     public String getCondition() {
         return condition;
     }
+
+    public void setTemp(float temp) {
+        this.temp = temp;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public void setFeelsLike(float feelsLike) {
+        this.feelsLike = feelsLike;
+    }
 }

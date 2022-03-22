@@ -12,13 +12,13 @@ class Weather {
     @JsonProperty(value = "now_dt")
     private String nowDt;
     @JsonProperty(value = "geo_object")
-    private Geo getObject;
+    private Geo geoObject;
     @JsonProperty(value = "fact")
-    Fact factObject;
-    ArrayList<Forecast> forecasts = new ArrayList<>();
+    private Fact factObject;
+    private final ArrayList<Forecast> forecasts = new ArrayList<>();
 
-    public Geo getGetObject() {
-        return getObject;
+    public Geo getGeoObject() {
+        return geoObject;
     }
 
     public String getNowDt() {
@@ -33,4 +33,8 @@ class Weather {
         return forecasts;
     }
 
+    public Weather() {
+        this.geoObject = new Geo();
+        forecasts.add(new Forecast());
+    }
 }

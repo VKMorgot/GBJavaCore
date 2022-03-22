@@ -12,4 +12,8 @@ class Geo {
     public Locality getLocalityObject() {
         return localityObject;
     }
+
+    public Geo() {
+        this.localityObject = new Locality();
+    }
 }

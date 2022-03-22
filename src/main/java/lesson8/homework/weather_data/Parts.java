@@ -12,4 +12,8 @@ class Parts {
     public DayShort getDayShortObject() {
         return dayShortObject;
     }
+
+    public Parts() {
+        this.dayShortObject = new DayShort();
+    }
 }

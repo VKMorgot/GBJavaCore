@@ -14,6 +14,14 @@ class Forecast {
         return date;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Forecast() {
+        this.partsObject = new Parts();
+    }
+
     public Parts getPartsObject() {
         return partsObject;
     }

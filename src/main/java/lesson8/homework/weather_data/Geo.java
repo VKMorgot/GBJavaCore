@@ -13,7 +13,9 @@ class Geo {
         return localityObject;
     }
 
-    public Geo() {
-        this.localityObject = new Locality();
+    public Locality setLocalityObject() {
+        localityObject = new Locality();
+        return localityObject;
     }
+
 }

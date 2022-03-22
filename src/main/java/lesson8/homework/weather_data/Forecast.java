@@ -18,8 +18,9 @@ class Forecast {
         this.date = date;
     }
 
-    public Forecast() {
-        this.partsObject = new Parts();
+    public Parts setPartsObject() {
+        partsObject = new Parts();
+        return partsObject;
     }
 
     public Parts getPartsObject() {

@@ -70,15 +70,6 @@ public class WeatherResponse {
     public void saveWeather() throws IOException {
         DatabaseRepository databaseRepository = new SQLiteImplementation();
         databaseRepository.saveWeatherData(weather);
-
-        //todo удалить
-        try {
-            databaseRepository.getAllSavedData();
-            System.out.println("Печать прошла");
-        } catch (MyObjectSaveException exception) {
-            exception.printStackTrace();
-        }
     }
-
 }
 

@@ -33,8 +33,13 @@ class Weather {
         return forecasts;
     }
 
-    public Weather() {
-        this.geoObject = new Geo();
+    public ArrayList<Forecast> setForecasts() {
         forecasts.add(new Forecast());
+        return forecasts;
+    }
+
+    public Geo setGeoObject() {
+        geoObject = new Geo();
+        return geoObject;
     }
 }

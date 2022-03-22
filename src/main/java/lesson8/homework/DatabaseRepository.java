@@ -18,15 +18,26 @@ public interface DatabaseRepository {
 
     /**
      * Читаем все данные из базы данных
+     *
      * @return список всех строк из базы
      */
     ArrayList<Weather> getAllSavedData() throws MyObjectSaveException;
 
     /**
-     * Читаем данные из базы данных по заданным параметрам
+     * Читаем данные из базы данных по заданным городу и дате
+     *
+     * @param cityName город для поиска погоды
+     * @param date     дата для поиска погоды
      * @return найденные строки, если таких данных несколько
      */
-    ArrayList<Weather> getCustomSavedData();
+    ArrayList<Weather> getCitySavedDataForDate(String cityName, String date) throws MyObjectSaveException;
 
+    /**
+     * Читаем данные из базы данных по заданной дате для всех городов
+     *
+     * @param date дата для поиска погоды
+     * @return найденные строки, если таких данных несколько
+     */
+    ArrayList<Weather> getSavedDataForDate(String date) throws MyObjectSaveException;
 
 }

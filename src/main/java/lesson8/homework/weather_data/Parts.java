@@ -13,7 +13,9 @@ class Parts {
         return dayShortObject;
     }
 
-    public Parts() {
-        this.dayShortObject = new DayShort();
+    public DayShort setDayShortObject() {
+        dayShortObject = new DayShort();
+        return dayShortObject;
     }
+
 }

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class WeatherApp {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, MyObjectSaveException {
         UserInterface userInterface = new UserInterface();
         userInterface.runApplication();
     }

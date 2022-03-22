@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class YandexWeatherProvider implements WeatherProvider {
 
-    private final String PROPERTIES = "./src/main/resources/lesson8.homework/yandex-werther.properties";
+    private final String PROPERTIES = ApplicationGlobalState.getInstance().getYANDEX_WEATHER_PROPERTIES();
     private final PropertiesProvider properties;
 
     public YandexWeatherProvider() throws IOException {

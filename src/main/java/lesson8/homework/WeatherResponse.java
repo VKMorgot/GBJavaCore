@@ -7,8 +7,7 @@ import java.io.IOException;
 
 public class WeatherResponse {
 
-    private final String CONDITIONS = "./src/main/resources/lesson8.homework/conditions.properties";
-    private final PropertiesProvider conditions = new PropertiesProvider(CONDITIONS);
+    private final PropertiesProvider conditions = new PropertiesProvider(ApplicationGlobalState.getInstance().getCONDITIONS());
     // полученная из json погода
     private final Weather weather;
 
@@ -42,7 +41,7 @@ public class WeatherResponse {
         float temperature = weather.getFactObject().getTemp();
         float feelsLike = weather.getFactObject().getFeelsLike();
 
-        System.out.printf("В городе %s сегодня %s, температура: %1.0f °С. Ощущается как %1.0f °С\n",
+        System.out.printf("В городе %s сейчас %s, температура: %1.0f °С. Ощущается как %1.0f °С\n",
                 cityName, weatherText, temperature, feelsLike);
 
     }

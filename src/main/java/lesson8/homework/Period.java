@@ -5,10 +5,7 @@ package lesson8.homework;
  */
 public enum Period {
     NOW("1", "1"),
-    FIVE_DAYS("2", "5"),
-    CUSTOM_CITY_DATE("3","0"),
-    CUSTOM_DATE("4","0"),
-    CUSTOM_ALL("5","0");
+    FIVE_DAYS("2", "5");
 
     private final String inputNumber;
     private final String days;

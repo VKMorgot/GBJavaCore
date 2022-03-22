@@ -14,7 +14,7 @@ import java.io.IOException;
 public class YandexCityProvider implements CityProvider {
 
     // работа с конфигом
-    private final String PROPERTIES = "./src/main/resources/lesson8.homework/yandex-geo.properties";
+    private final String PROPERTIES = ApplicationGlobalState.getInstance().getYANDEX_GEO_PROPERTIES();
     private final PropertiesProvider properties;
 
     // работа с json

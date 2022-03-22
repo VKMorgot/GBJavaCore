@@ -32,15 +32,9 @@ public class UserInterface {
         do {
             System.out.printf("Выберите дальнейшее действие: \n" +
                             "%s - Получить текущую погоду \n" +
-                            "%s - Получить погоду на следующие 5 дней \n" +
-                            "%s - Прочитать данные из базы по дате по указанному городу \n" +
-                            "%s - Прочитать данные из базы по дате \n" +
-                            "%s - Прочитать все данные из базы\n",
+                            "%s - Получить погоду на следующие 5 дней \n",
                     Period.NOW.getInputNumber(),
-                    Period.FIVE_DAYS.getInputNumber(),
-                    Period.CUSTOM_CITY_DATE.getInputNumber(),
-                    Period.CUSTOM_DATE.getInputNumber(),
-                    Period.CUSTOM_ALL.getInputNumber());
+                    Period.FIVE_DAYS.getInputNumber());
             periodInput = scanner.nextLine();
         } while (!isInputValid(periodInput));
 
@@ -70,18 +64,72 @@ public class UserInterface {
         if (scanner.nextLine().equals(EXIT)) System.exit(0);
     }
 
-    public void runApplication() throws IOException {
+    /**
+     * Выбор режима работы: поиск прогноза погоды или работа с базой данных
+     *
+     * @return режим работы
+     */
+    private String activateMode() {
+        String mode;
+        do {
+            System.out.print("Выберите режим работы: \n" +
+                    "1 - Поиск погоды \n" +
+                    "2 - Работа с базой данных \n");
+            mode = scanner.nextLine();
+        } while (!mode.equals("1") && !mode.equals("2"));
+        return mode;
+    }
+
+    private String activateModeSQL() {
+        String mode;
+        do {
+            System.out.print("Выберите действие: \n" +
+                    "1 - Прочитать данные из базы в городе по выбранной дате \n" +
+                    "2 - Прочитать данные из базы по дате \n" +
+                    "3 - Прочитать все данные из базы \n");
+            mode = scanner.nextLine();
+        } while (!mode.equals("1") && !mode.equals("2") && !mode.equals("3"));
+        return mode;
+    }
+
+    public void runApplication() throws IOException, MyObjectSaveException {
         System.out.println("Добро пожаловать в программу по определению погоды");
         while (true) {
-
-            City city = new City(getCityName());
-            if (city.isFound()) {
-
-                WeatherProvider weatherProvider = new YandexWeatherProvider();
-                weatherProvider.getWeather(city, getPeriod());
-
-            } else {
-                System.out.println("Попробуйте ввести город еще раз");
+            switch (activateMode()) {
+                // ищем погоду в интернете
+                case "1":
+                    City city = new City(getCityName());
+                    if (city.isFound()) {
+                        WeatherProvider weatherProvider = new YandexWeatherProvider();
+                        weatherProvider.getWeather(city, getPeriod());
+                    } else {
+                        System.out.println("Попробуйте ввести город еще раз");
+                    }
+                    break;
+                // работаем с базой данных
+                case "2":
+                    switch (activateModeSQL()) {
+                        case "1":
+                            // печать данных по указанному городу и дате
+                            System.out.println("Введите название города:");
+                            String cityName = scanner.nextLine();
+                            System.out.println("Введите дату в формате yyyy-mm-dd:");
+                            String weatherDay = scanner.nextLine();
+                            cityName = cityName.substring(0, 1).toUpperCase() + cityName.substring(1);
+                            new InterfaceForDatabase().printCityDateData(cityName, weatherDay);
+                            break;
+                        case "2":
+                            // печать данных по указанной дате
+                            System.out.println("Введите дату в формате yyyy-mm-dd:");
+                            String day = scanner.nextLine();
+                            new InterfaceForDatabase().printDateData(day);
+                            break;
+                        case "3":
+                            // печать всех данных из базы
+                            new InterfaceForDatabase().printAllData();
+                            break;
+                    }
+                    break;
             }
             isContinue();
         }

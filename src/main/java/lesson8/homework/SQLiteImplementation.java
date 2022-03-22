@@ -1,5 +1,6 @@
 package lesson8.homework;
 
+import lesson8.homework.weather_data.DayShort;
 import lesson8.homework.weather_data.Forecast;
 import lesson8.homework.weather_data.Weather;
 
@@ -17,8 +18,7 @@ public class SQLiteImplementation implements DatabaseRepository {
         }
     }
 
-    private final String CONDITIONS = "./src/main/resources/lesson8.homework/conditions.properties";
-    private final PropertiesProvider conditions = new PropertiesProvider(CONDITIONS);
+    private final PropertiesProvider conditions = new PropertiesProvider(ApplicationGlobalState.getInstance().getCONDITIONS());
     private final String fileName;
 
     private final String CREATE_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS Weather " +
@@ -33,13 +33,12 @@ public class SQLiteImplementation implements DatabaseRepository {
     private final String INSERT_WEATHER_QUERY =
             "INSERT INTO Weather (city, day_date, temperature, feels_like, weather_text) VALUES (?,?,?,?,?);";
     private final String GET_ALL_WEATHER_QUERY = "SELECT * FROM Weather;";
-    private final String GET_CITY_WEATHER_FOR_DATE_QUERY = "SELECT * FROM Weather WHERE city = '?' AND day_date = '?'";
-    private final String GET_WEATHER_FOR_DATE_QUERY = "SELECT * FROM Weather WHERE day_date = '?';";
+    private final String GET_CITY_WEATHER_FOR_DATE_QUERY = "SELECT * FROM Weather WHERE city = '%s' AND day_date = '%s'";
+    private final String GET_WEATHER_FOR_DATE_QUERY = "SELECT * FROM Weather WHERE day_date = '%s'";
 
 
     public SQLiteImplementation() throws IOException {
         fileName = ApplicationGlobalState.getInstance().getDB_FILE_NAME();
-
         createTableIfNotExists();
     }
 
@@ -74,11 +73,9 @@ public class SQLiteImplementation implements DatabaseRepository {
 
     @Override
     public ArrayList<Weather> getCitySavedDataForDate(String cityName, String date) throws MyObjectSaveException {
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(GET_CITY_WEATHER_FOR_DATE_QUERY)) {
-            preparedStatement.setString(1, cityName);
-            preparedStatement.setString(2, date);
-            preparedStatement.addBatch();
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try (Connection connection = getConnection()) {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery(String.format(GET_CITY_WEATHER_FOR_DATE_QUERY, cityName, date));
             return getWeatherDataFromResultSet(resultSet);
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -87,11 +84,10 @@ public class SQLiteImplementation implements DatabaseRepository {
     }
 
     @Override
-    public ArrayList<Weather> getSavedDataForDate(String date) throws MyObjectSaveException{
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(GET_WEATHER_FOR_DATE_QUERY)) {
-            preparedStatement.setString(1, date);
-            preparedStatement.addBatch();
-            ResultSet resultSet = preparedStatement.executeQuery();
+    public ArrayList<Weather> getSavedDataForDate(String date) throws MyObjectSaveException {
+        try (Connection connection = getConnection()) {
+            ResultSet resultSet = connection.createStatement()
+                    .executeQuery(String.format(GET_WEATHER_FOR_DATE_QUERY, date));
             return getWeatherDataFromResultSet(resultSet);
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -116,6 +112,7 @@ public class SQLiteImplementation implements DatabaseRepository {
 
     /**
      * Сохраняем данные из результатов запроса к базе данных в объекты класса
+     *
      * @param resultSet результат запроса к БД
      * @return массив погоды из полученных строк
      * @throws SQLException исключение
@@ -124,11 +121,12 @@ public class SQLiteImplementation implements DatabaseRepository {
         ArrayList<Weather> weatherArrayList = new ArrayList<>();
         while (resultSet.next()) {
             Weather weather = new Weather();
-            weather.setGeoObject().setLocalityObject().setName("city");
+            weather.setGeoObject().setLocalityObject().setName(resultSet.getString("city"));
             weather.setForecasts().get(0).setDate(resultSet.getString("day_date"));
-            weather.setForecasts().get(0).setPartsObject().setDayShortObject().setTemp(resultSet.getFloat("temperature"));
-            weather.setForecasts().get(0).setPartsObject().setDayShortObject().setFeelsLike(resultSet.getFloat("feels_like"));
-            weather.setForecasts().get(0).setPartsObject().setDayShortObject().setCondition(resultSet.getString("weather_text"));
+            DayShort dayShort = weather.getForecasts().get(0).setPartsObject().setDayShortObject();
+            dayShort.setTemp(resultSet.getFloat("temperature"));
+            dayShort.setFeelsLike(resultSet.getFloat("feels_like"));
+            dayShort.setCondition(conditions.getProperties().getProperty(resultSet.getString("weather_text")));
             weatherArrayList.add(weather);
         }
         return weatherArrayList;

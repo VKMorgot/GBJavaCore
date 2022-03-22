@@ -23,21 +23,24 @@ public class UserInterface {
     }
 
     /**
-     * Выбираем период для прогноза погоды
+     * Выбираем дальнейшие действия для работы с прогнозом погоды
      *
      * @return код выбранного действия
      */
     private Period getPeriod() {
         String periodInput;
-        // todo дополнить меню получением прогноза погода по указанной дате
-        // todo дополнить меню выводом всех имеющихся данных
-        // todo можно попробовать сделать вывод и для города, и для всех данных в таблице
         do {
             System.out.printf("Выберите дальнейшее действие: \n" +
                             "%s - Получить текущую погоду \n" +
-                            "%s - Получить погоду на следующие 5 дней\n",
+                            "%s - Получить погоду на следующие 5 дней \n" +
+                            "%s - Прочитать данные из базы по дате по указанному городу \n" +
+                            "%s - Прочитать данные из базы по дате \n" +
+                            "%s - Прочитать все данные из базы\n",
                     Period.NOW.getInputNumber(),
-                    Period.FIVE_DAYS.getInputNumber());
+                    Period.FIVE_DAYS.getInputNumber(),
+                    Period.CUSTOM_CITY_DATE.getInputNumber(),
+                    Period.CUSTOM_DATE.getInputNumber(),
+                    Period.CUSTOM_ALL.getInputNumber());
             periodInput = scanner.nextLine();
         } while (!isInputValid(periodInput));
 

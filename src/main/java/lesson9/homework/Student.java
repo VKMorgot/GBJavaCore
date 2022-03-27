@@ -1,6 +1,7 @@
 package lesson9.homework;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Student {
@@ -17,10 +18,10 @@ public class Student {
     }
 
     public void info() {
-        System.out.println(name + ":");
-        for (Course course : courseList) {
-            System.out.print(course.getName() + ", ");
-        }
+        System.out.println("Студент " + name + ". Количество курсов " + this.getAllCourses().size() + ":");
+        courseList.stream()
+                .sorted(Comparator.comparing(Course::getName))
+                .forEach(course -> System.out.println(course.getName()));
         System.out.println();
     }
 

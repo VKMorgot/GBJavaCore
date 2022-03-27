@@ -36,7 +36,6 @@ public class Course implements Comparable {
 
     @Override
     public int compareTo(@NotNull Object o) {
-        Course course = (Course) o;
         return this.getName().compareTo(((Course) o).getName());
     }
 }

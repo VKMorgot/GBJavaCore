@@ -111,11 +111,14 @@ public class MainApp {
 
         // 3. Написать функцию, принимающую на вход список Student и экземпляр Course,
         // возвращающую список студентов, которые посещают этот курс.
-        // todo написать в виде отдельной функции
-        Course courseToAttend = (Course) courses.toArray()[0];
+        // todo переписать в виде отдельной функции
+        Course courseToAttend = (Course) courses.toArray()[0];  // должно задаваться параметром функции
         List<Student> attendStudents = studentsGroup.stream()
-                .flatMap(student -> student.getAllCourses().stream())
-                .anyMatch(courseToAttend)
-
+                .filter(student -> student.getAllCourses().stream()
+                        .anyMatch(course -> course.equals(courseToAttend)))
+                .collect(Collectors.toList());
+        System.out.println(courseToAttend.getName() + " - " + attendStudents.size() );
+        System.out.println("---");
+        attendStudents.forEach(Student::info);
     }
 }

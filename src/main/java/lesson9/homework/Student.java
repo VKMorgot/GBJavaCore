@@ -18,7 +18,8 @@ public class Student {
     }
 
     public void info() {
-        System.out.println("Студент " + name + ". Количество курсов " + this.getAllCourses().size() + ":");
+        System.out.println("Студент: " + name);
+        System.out.println("Количество курсов: " + this.getAllCourses().size());
         courseList.stream()
                 .sorted(Comparator.comparing(Course::getName))
                 .forEach(course -> System.out.println(course.getName()));
